@@ -1,1 +1,0 @@
-/home/pete/bluetooth/bluez-5.37/lib/rfcomm.h
