@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container" id="main">
+    <div class="row">
+        {% if sensor_readings %}
+            {% for reading in sensor_readings %}
+                {{ reading.receiver }}
+                {{ reading.mac_address }}
+                {{ reading.rssi }}
+                {{ reading.timestamp }}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

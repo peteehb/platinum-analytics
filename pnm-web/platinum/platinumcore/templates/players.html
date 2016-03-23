@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container" id="main">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Players</h2>
+            <table class="table table-striped" id="player-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Team</th>
+                        <th>Position</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in players %}
+                        <tr>
+                            <td>{{ p.first_name }} {{ p.last_name }}</td>
+                            <td>{{ p.position }}</td>
+                            <td>{{ p.team }}</td>
+                            <td><a id="player_{{ p.id }}" href="{% url 'players' %}{{ p.id }}" ><span class="glyphicon glyphicon-wrench"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Add Player</h2>
+            <hr>
+            {% crispy form %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

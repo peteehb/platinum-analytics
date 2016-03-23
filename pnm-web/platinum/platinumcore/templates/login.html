@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Masthead -->
+<div id="masthead">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <h1>Platinum <p class="lead"><span style="color:#CCFF33;">Analytic</span> Metrics for Teams & Athletes</p></h1>
+            </div>
+            <div class="col-sm-5">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Chunk -->
+<div class="container" id="main">
+    <div class="row">
+        <h2>Login</h2>
+          {% if form.errors %}
+            <p class="error">Sorry, that's not a valid username or password</p>
+          {% endif %}
+
+          <form action="" method="post">
+              {% csrf_token %}
+            <label for="username">User name:</label>
+            <input type="text" name="username" value="" id="username">
+            <label for="password">Password:</label>
+            <input type="password" name="password" value="" id="password">
+
+            <input type="submit" value="login" />
+            <input type="hidden" name="next" value="{{ next|escape }}" />
+          </form>
+    </div>
+</div>
+{% endblock %}
