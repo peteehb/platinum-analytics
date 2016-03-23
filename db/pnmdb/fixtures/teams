@@ -1,0 +1,20 @@
+[
+  {
+    "pk": 1000,
+    "model": "pnmdb.teams",
+    "fields": {
+      "name": "Mens-1st",
+      "club": 1,
+      "players": []
+    }
+  },
+  {
+    "pk": 1002,
+    "model": "pnmdb.teams",
+    "fields": {
+      "name": "Ladies-1st",
+      "club": 1,
+      "players": []
+    }
+  }
+]
