@@ -1,0 +1,43 @@
+Development Phase
+
+Callibration - me walking in a line, triangle, circle
+what i expected?
+what i receive?
+
+placement of receivers
+
+
+
+What has the player done ?
+
+Characterixe players
+
+
+If they 
+
+
+Coaching app to ensure team formation
+- ensuring tactics
+
+what regions the player was in?
+heatmap
+
+
+scrum 
+
+
+rest django
+
+3-tier 
+
+
+background
+
+
+rssi and received pair
+
+gishtault closure - interpolate
+
+proximity zzones
+
+

@@ -1,0 +1,44 @@
+Stage 1
+
+- Stationary sensor position calculation
+- Small range of position
+
+Stage 2
+
+- Moving sensor position calculation
+
+
+Stage 3
+
+- 
+
+
+
+
+Statistics
+
+- Close reading
+
+- Far reading
+
+
+
+
+
+Analysis
+
+- Fitbit / team statistics
+- Performance analysis over time
+
+
+
+
+
+For next week
+- phones reading position in a small area
+
+
+- phone app to read position and send data via rest to server
+
+
+- try send to server
