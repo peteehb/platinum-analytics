@@ -28,6 +28,8 @@ class StartProgram(object):
                 print reading
 
     def check_connection_to_internet(self):
+        con = Process('sudo ifconfig wlan0 up')
+        dhclient = Process('sudo dhclient')
         conn_established = False
         internet_established = False
         p = Process('sudo ip route ls')
