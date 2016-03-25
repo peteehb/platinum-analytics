@@ -7,7 +7,8 @@ from ProcessManager import Process
 
 class BluetoothMonitor(object):
 
-    def __init__(self):
+    def __init__(self, mon_id):
+        self.mon_id = mon_id
         self.bluetooth_scanner = Process('sudo hcitool lescan --duplicates')
         self.bluetooth_monitor = Process('sudo btmon')
         self.ble_reading = {}
@@ -15,7 +16,7 @@ class BluetoothMonitor(object):
     def get_next_reading(self):
         next_reading = False
         while not next_reading:
-            line = self.bluetooth_scanner.output()
+            line = self.bluetooth_monitor.get_output()
             if line.startswith('> HCI Event'):
                 self.ble_reading = {}
             if line.startswith('Address:'):
@@ -45,4 +46,5 @@ class BluetoothMonitor(object):
     def compile_reading(self):
         rssi = self.ble_reading['rssi']
         self.ble_reading['timestamp'] = int(time.time() * 100)
+        self.ble_reading['receiver'] = self.mon_id
         self.ble_reading['distance'] = self.get_distance_from_rssi(rssi)

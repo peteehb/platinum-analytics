@@ -1,6 +1,6 @@
 
-from bluetooth_monitor import BluetoothMonitor
-from data_collection_utlities import DataCollectionUtilities
+from BluetoothMonitor import BluetoothMonitor
+from utils import DataCollectionUtilities
 
 def main():
     btmon = BluetoothMonitor()
