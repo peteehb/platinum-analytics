@@ -1,0 +1,81 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+	<Directory /var/www/>
+		Options FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+	 <Directory /var/www/tomcollinsart>
+                Options FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+Listen 8000
+<VirtualHost *:8000>
+	WSGIScriptAlias / /opt/platinum/db/pnmdb/wsgi.py
+	WSGIDaemonProcess pnmdb python-path=/opt/platinum/db/pnmdb:/home/elpok/.virtualenvs/pnm-db/lib/python2.7/site-packages
+	WSGIProcessGroup pnmdb
+
+	Alias /static /opt/platinum/db/static
+
+	<Directory /opt/platinum/db>
+		Options -Indexes
+		Order deny,allow
+		Allow from all
+	</Directory>
+	
+	ErrorLog ${APACHE_LOG_DIR}/pnmdb_error.log
+	CustomLog ${APACHE_LOG_DIR}/pnmdb_access.log combined
+
+</VirtualHost>
+
+
+Listen 7999
+<VirtualHost *:7999>
+	WSGIScriptAlias / /opt/platinum/web/pnmweb/platinum/wsgi.py
+	WSGIDaemonProcess platinum python-path=/opt/platinum/web/pnmweb/platinum:/home/elpok/.virtualenvs/pnm-web/lib/python2.7/site-packages
+	WSGIProcessGroup platinum
+
+	Alias /static /opt/platinum/web/pnmweb/static
+
+	<Directory /opt/platinum/web>
+		Options -Indexes
+		Order deny,allow
+		Allow from all
+	</Directory>
+	
+	ErrorLog ${APACHE_LOG_DIR}/pnmweb_error.log
+	CustomLog ${APACHE_LOG_DIR}/pnmweb_access.log combined
+
+</VirtualHost>
+
+
