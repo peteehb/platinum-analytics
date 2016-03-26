@@ -7,15 +7,18 @@ from DataWriter import CsvDataWriter, DatabaseDataWriter
 
 
 class StartProgram(object):
-    def __init__(self, ble_mon_id):
+    def __init__(self, ble_mon_id, run_locally):
         self.ble_mon_id = ble_mon_id
+        self.run_locally = run_locally
         self.monitor = BluetoothMonitor(mon_id=ble_mon_id)
+
         internet = self.check_connection_to_internet()
-        if internet:
+
+        if internet and not run_locally:
             self.writer = DatabaseDataWriter(remote_url='http://127.0.0.1:8000/sensor-reading/')
         else:
             self.writer = CsvDataWriter(filename='SensorReadings',
-                                        file_header=['rssi', 'mac_address', 'timestamp', 'distance'])
+                                        file_header=['rssi', 'mac_address', 'timestamp', 'distance', 'receiver'])
 
     def run(self):
         if self.writer.verify_writer_accessible():
@@ -54,12 +57,13 @@ def exit(rc=1):
 
 
 def cli():
-    if len(sys.argv) < 2 or len(sys.argv) > 2:
+    if len(sys.argv) < 3 or len(sys.argv) > 3:
         exit()
 
     ble_mon_id = sys.argv[1]
+    run_locally = sys.argv[2]
 
-    bluetooth_monitor = StartProgram(ble_mon_id=ble_mon_id)
+    bluetooth_monitor = StartProgram(ble_mon_id=ble_mon_id, run_locally=run_locally)
     bluetooth_monitor.run()
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ import csv
 import urllib2
 import requests
 import utils
+from ProcessManager import Process
 
 class DataWriter:
 
@@ -22,6 +23,9 @@ class DataWriter:
     def write(self, **kwargs):
         pass
 
+    @abstractmethod
+    def close(self, **kwargs):
+        pass
 
 class CsvDataWriter(DataWriter):
 
@@ -29,22 +33,24 @@ class CsvDataWriter(DataWriter):
         DataWriter.__init__(self, **kwargs)
         self.filename = kwargs.get('filename')
         self.file_header = kwargs.get('file_header')
+        self.csv_file = None
         self.file_writer = self.open()
         self.accessible = self.verify_writer_accessible()
+        self.write_count = 0
 
     def open(self):
-        csv_file = None
+        self.csv_file = None
         file_writer = None
         timestamp = utils.get_timestamp()
         new_file = self.filename + timestamp
         try:
-            csv_file = open('logs/' + new_file, 'w+')
+            self.csv_file = open('logs/' + new_file + '.csv', 'w+')
         except Exception, e:
             pass
 
-        if csv_file:
+        if self.csv_file:
             try:
-                file_writer = csv.DictWriter(csv_file, self.file_header)
+                file_writer = csv.DictWriter(self.csv_file, self.file_header)
                 file_writer.writeheader()
             except Exception, e:
                 pass
@@ -59,14 +65,22 @@ class CsvDataWriter(DataWriter):
 
     def write(self, **kwargs):
         write_success = False
+        if self.write_count > 99:
+            self.close()
+            self.file_writer = self.open()
+            self.write_count = 0
         data = kwargs.get('data')
         try:
             self.file_writer.writerow(data)
             write_success = True
+            self.write_count += 1
         except Exception, e:
-            pass
+            raise ValueError(e)
         return write_success
 
+    def close(self):
+        self.csv_file.close()
+        Process('sudo mv ./' + self.csv_file.name + ' ./readings')
 
 class DatabaseDataWriter(DataWriter):
 
@@ -100,3 +114,6 @@ class DatabaseDataWriter(DataWriter):
             except Exception, e:
                 pass
         return write_success
+
+    def close(self):
+        pass
