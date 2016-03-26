@@ -34,6 +34,10 @@ class PlayerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SensorReadingSerializer(serializers.HyperlinkedModelSerializer):
+    def __init__(self, *args, **kwargs):
+        many = kwargs.pop('many', True)
+        super(SensorReadingSerializer, self).__init__(many=many, *args, **kwargs)
+
     class Meta:
         model = SensorReading
         fields = ('id', 'url', 'rssi', 'mac_address', 'timestamp', 'receiver', 'distance')

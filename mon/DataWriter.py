@@ -44,7 +44,7 @@ class CsvDataWriter(DataWriter):
         timestamp = utils.get_timestamp()
         new_file = self.filename + timestamp
         try:
-            self.csv_file = open('logs/' + new_file + '.csv', 'w+')
+            self.csv_file = open('logs/' + new_file + '.csv', 'wb+')
         except Exception, e:
             pass
 
