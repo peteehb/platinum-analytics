@@ -120,6 +120,6 @@ TEMPLATE_DEBUG = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-PNMDB_URL = '127.0.0.1:8000'
+PNMDB_URL = '130.255.72.102:8000'
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
