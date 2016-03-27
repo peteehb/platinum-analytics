@@ -4,7 +4,7 @@ from ProcessManager import Process
 from BluetoothMonitor import BluetoothMonitor
 import urllib2
 from DataWriter import CsvDataWriter, DatabaseDataWriter
-
+import settings
 
 class StartProgram(object):
     def __init__(self, ble_mon_id, run_locally):
@@ -13,7 +13,7 @@ class StartProgram(object):
         self.monitor = BluetoothMonitor(mon_id=ble_mon_id)
 
         internet = self.check_connection_to_internet()
-
+	import ipdb;ipdb.set_trace()
         if internet and not run_locally:
             self.writer = DatabaseDataWriter(remote_url='http://130.255.72.102:8000/sensor-reading/')
         else:

@@ -5,6 +5,7 @@ import requests
 import utils
 from ProcessManager import Process
 import settings
+import os
 
 class DataWriter:
 
@@ -45,16 +46,16 @@ class CsvDataWriter(DataWriter):
         timestamp = utils.get_timestamp()
         new_file = self.filename + timestamp
         try:
-            self.csv_file = open('logs/' + new_file + '.csv', 'wb+')
+            self.csv_file = open(os.path.join(os.getcwd() + '/logs/') + new_file + '.csv', 'wb+')
         except Exception, e:
-            pass
+            raise Exception
 
         if self.csv_file:
             try:
                 file_writer = csv.DictWriter(self.csv_file, self.file_header)
                 file_writer.writeheader()
             except Exception, e:
-                pass
+               	raise Exception 
         return file_writer
 
     def verify_writer_accessible(self):
@@ -116,7 +117,7 @@ class DatabaseDataWriter(DataWriter):
                 if r.status_code == 201:
                     write_success = True
             except Exception, e:
-                pass
+               	raise Exception 
         return write_success
 
     def close(self):
