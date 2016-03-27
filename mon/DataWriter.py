@@ -34,6 +34,7 @@ class DataWriter:
 class CsvDataWriter(DataWriter):
     def __init__(self, **kwargs):
         DataWriter.__init__(self, **kwargs)
+        self.rel_path = kwargs.get('rel_path')
         self.filename = kwargs.get('filename')
         self.file_header = kwargs.get('file_header')
         self.csv_file = None
@@ -48,7 +49,7 @@ class CsvDataWriter(DataWriter):
         timestamp = utils.get_timestamp()
         self.new_file = self.filename + timestamp + '.csv'
         try:
-            self.csv_file = open(join_cwd('/logs/' + self.new_file), 'wb+')
+            self.csv_file = open(join_cwd(self.rel_path + self.new_file), 'wb+')
         except Exception, e:
             raise Exception
 
