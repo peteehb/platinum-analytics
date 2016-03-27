@@ -51,8 +51,7 @@ class CsvDataWriter(DataWriter):
         try:
             self.csv_file = open(join_cwd(self.rel_path + self.new_file), 'wb+')
         except Exception, e:
-            raise Exception
-
+            import ipdb;ipdb.set_trace()
         if self.csv_file:
             try:
                 file_writer = csv.DictWriter(self.csv_file, self.file_header)
@@ -88,7 +87,8 @@ class CsvDataWriter(DataWriter):
 
     def close(self):
         self.csv_file.close()
-        Process('sudo mv ' + join_cwd(self.new_file) + ' ' + join_cwd('/readings/' + self.new_file))
+	command = 'sudo mv ' + join_cwd('/logs/' + self.new_file) + ' ' + join_cwd('/readings/' + self.new_file)
+	Process(command)
 
 
 class DatabaseDataWriter(DataWriter):
