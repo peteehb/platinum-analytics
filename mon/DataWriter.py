@@ -44,7 +44,7 @@ class CsvDataWriter(DataWriter):
         self.csv_file = None
         file_writer = None
         timestamp = utils.get_timestamp()
-        new_file = self.filename + timestamp
+        self.new_file = self.filename + timestamp
         try:
             self.csv_file = open(os.path.join(os.getcwd() + '/logs/') + new_file + '.csv', 'wb+')
         except Exception, e:
@@ -85,7 +85,7 @@ class CsvDataWriter(DataWriter):
 
     def close(self):
         self.csv_file.close()
-        Process('sudo mv ' + self.csv_file + os.path.join(os.getcwd(), '/readings'))
+        Process('sudo mv ' + self.new_file + os.path.join(os.getcwd(), '/readings'))
 
 
 class DatabaseDataWriter(DataWriter):
