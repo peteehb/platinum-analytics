@@ -15,7 +15,7 @@ class StartProgram(object):
         internet = self.check_connection_to_internet()
 
         if internet and not run_locally:
-            self.writer = DatabaseDataWriter(remote_url='http://127.0.0.1:8000/sensor-reading/')
+            self.writer = DatabaseDataWriter(remote_url='http://130.255.72.102:8000/sensor-reading/')
         else:
             self.writer = CsvDataWriter(filename='SensorReadings',
                                         file_header=['rssi', 'mac_address', 'timestamp', 'distance', 'receiver'])
