@@ -15,8 +15,11 @@ class SyncLocalFiles(object):
         if self.url_accessible:
             files = self.get_local_files()
             for file in files:
+                readings_file_path = os.path.join(f.local_files_path, file)
+                readings_file = csv.DictReader(open(readings_file_path, 'r'))
+
                 readings_failed_to_post = []
-                readings_file = csv.DictReader(open(os.path.join(f.local_files_path, file), 'r'))
+
                 for reading in readings_file:
                     post_success = self.post_reading(reading)
                     if post_success is False:
@@ -28,8 +31,7 @@ class SyncLocalFiles(object):
                         failed_readings_writer.write(data=reading)
                     failed_readings_writer.close()
 
-                file.close()
-                os.remove(file)
+                os.remove(readings_file_path)
 
     def check_url(self):
         url_accessible = False
