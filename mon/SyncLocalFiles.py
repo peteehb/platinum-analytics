@@ -2,6 +2,8 @@ import os
 import requests
 import urllib2
 import csv
+from DataWriter import CsvDataWriter
+
 
 class SyncLocalFiles(object):
     def __init__(self):
@@ -13,16 +15,21 @@ class SyncLocalFiles(object):
         if self.url_accessible:
             files = self.get_local_files()
             for file in files:
+                readings_failed_to_post = []
                 readings_file = csv.DictReader(open(os.path.join(f.local_files_path, file), 'r'))
-                all_readings_posted = True
                 for reading in readings_file:
                     post_success = self.post_reading(reading)
-                    if not post_success:
-                        all_readings_posted = False
-                        break
-                if all_readings_posted:
-                    file.close()
-                    os.remove(file)
+                    if post_success is False:
+                        readings_failed_to_post.append(reading)
+
+                if len(readings_failed_to_post) > 0:
+                    failed_readings_writer = CsvDataWriter(filename='SensorReadingsFailed', file_header=readings_file._fieldnames)
+                    for reading in readings_failed_to_post:
+                        failed_readings_writer.write(reading)
+                    failed_readings_writer.close()
+
+                file.close()
+                os.remove(file)
 
     def check_url(self):
         url_accessible = False
