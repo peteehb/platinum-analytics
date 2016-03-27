@@ -40,14 +40,15 @@ class CsvDataWriter(DataWriter):
         self.file_writer = self.open()
         self.accessible = self.verify_writer_accessible()
         self.write_count = 0
+        self.new_file = None
 
     def open(self):
         self.csv_file = None
         file_writer = None
         timestamp = utils.get_timestamp()
-        self.new_file = self.filename + timestamp
+        self.new_file = self.filename + timestamp + '.csv'
         try:
-            self.csv_file = open(join_cwd('/logs/' + self.new_file + '.csv'), 'wb+')
+            self.csv_file = open(join_cwd('/logs/' + self.new_file), 'wb+')
         except Exception, e:
             raise Exception
 
