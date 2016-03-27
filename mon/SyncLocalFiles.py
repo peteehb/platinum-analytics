@@ -3,19 +3,20 @@ import requests
 import urllib2
 import csv
 from DataWriter import CsvDataWriter
+from utils import join_cwd
 
 
 class SyncLocalFiles(object):
     def __init__(self):
         self.url = 'http://130.255.72.102:8000/sensor-reading/'
-        self.local_files_path = os.path.join(os.getcwd() + '/readings/')
+        self.local_files_path = join_cwd('/readings/')
         self.url_accessible = self.check_url()
 
     def run(self):
         if self.url_accessible:
             files = self.get_local_files()
             for file in files:
-                readings_file_path = os.path.join(f.local_files_path, file)
+                readings_file_path = self.local_files_path + file
                 readings_file = csv.DictReader(open(readings_file_path, 'r'))
 
                 readings_failed_to_post = []
@@ -26,10 +27,9 @@ class SyncLocalFiles(object):
                         readings_failed_to_post.append(reading)
 
                 if len(readings_failed_to_post) > 0:
-                    failed_readings_writer = CsvDataWriter(rel_path='/readings/', filename='SensorReadingsFailed', file_header=readings_file._fieldnames)
+                    failed_readings_writer = CsvDataWriter(rel_path='/readings', filename='SensorReadingsFailed', file_header=readings_file._fieldnames)
                     for reading in readings_failed_to_post:
                         failed_readings_writer.write(data=reading)
-                    failed_readings_writer.close()
 
                 os.remove(readings_file_path)
 
