@@ -46,7 +46,7 @@ class CsvDataWriter(DataWriter):
         timestamp = utils.get_timestamp()
         self.new_file = self.filename + timestamp
         try:
-            self.csv_file = open(os.path.join(os.getcwd() + '/logs/') + new_file + '.csv', 'wb+')
+            self.csv_file = open(os.path.join(os.getcwd() + '/logs/') + self.new_file + '.csv', 'wb+')
         except Exception, e:
             raise Exception
 
