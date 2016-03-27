@@ -4,6 +4,7 @@ import urllib2
 import requests
 import utils
 from ProcessManager import Process
+import settings
 
 class DataWriter:
 
@@ -58,7 +59,10 @@ class CsvDataWriter(DataWriter):
 
     def verify_writer_accessible(self):
         writer_accessible = False
-        writer = self.open()
+        try:
+            writer = self.open()
+        except Exception, e:
+            raise Exception
         if writer:
             writer_accessible = True
         return writer_accessible
