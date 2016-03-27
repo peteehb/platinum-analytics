@@ -7,8 +7,8 @@ from ProcessManager import Process
 import settings
 import os
 
-class DataWriter:
 
+class DataWriter:
     @abstractmethod
     def __init__(self, **kwargs):
         pass
@@ -29,8 +29,8 @@ class DataWriter:
     def close(self, **kwargs):
         pass
 
-class CsvDataWriter(DataWriter):
 
+class CsvDataWriter(DataWriter):
     def __init__(self, **kwargs):
         DataWriter.__init__(self, **kwargs)
         self.filename = kwargs.get('filename')
@@ -55,7 +55,7 @@ class CsvDataWriter(DataWriter):
                 file_writer = csv.DictWriter(self.csv_file, self.file_header)
                 file_writer.writeheader()
             except Exception, e:
-               	raise Exception 
+                raise Exception
         return file_writer
 
     def verify_writer_accessible(self):
@@ -85,10 +85,10 @@ class CsvDataWriter(DataWriter):
 
     def close(self):
         self.csv_file.close()
-        Process('sudo mv ./' + self.csv_file.name + ' ./readings')
+        Process('sudo mv ' + self.csv_file + os.path.join(os.getcwd(), '/readings'))
+
 
 class DatabaseDataWriter(DataWriter):
-
     def __init__(self, **kwargs):
         DataWriter.__init__(self, **kwargs)
         self.remote_url = kwargs.get('remote_url')
@@ -117,7 +117,7 @@ class DatabaseDataWriter(DataWriter):
                 if r.status_code == 201:
                     write_success = True
             except Exception, e:
-               	raise Exception 
+                raise Exception
         return write_success
 
     def close(self):
