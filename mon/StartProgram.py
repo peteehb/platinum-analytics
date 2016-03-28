@@ -30,6 +30,7 @@ class StartProgram(object):
                 print reading
 
     def check_connection_to_internet(self):
+		
         con = Process('sudo ifconfig wlan0 up')
         dhclient = Process('sudo dhclient')
         conn_established = False
@@ -56,6 +57,14 @@ def exit(rc=1):
 
 
 def cli():
+	# Check that the program has been initialized with the correct number of arguments.
+	# Args[1] is the id for the monitor, Args[2] decides whether or not the monitor should
+	# be started in local or remote mode.
+	# Local mode saves readings to a csv file on disk whereas remote mode posts readings directly
+	# to pnmdb database.
+	# If the remote url cannot be accessed the monitor will fall back into local mode.
+	# Usage: python StartProgram 1 False
+	
     if len(sys.argv) < 3 or len(sys.argv) > 3:
         exit()
 
