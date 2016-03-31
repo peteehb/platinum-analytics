@@ -5,9 +5,7 @@ import requests
 import utils
 from utils import join_cwd
 from ProcessManager import Process
-import settings
-import os
-
+import config
 
 class DataWriter:
     @abstractmethod
@@ -42,6 +40,8 @@ class CsvDataWriter(DataWriter):
         self.accessible = self.verify_writer_accessible()
         self.write_count = 0
         self.new_file = None
+        self.logs_dir = format(config.mon_dir, '/logs/')
+        self.eadings_dir = format(config.mon_dir, '/readings/')
 
     def open(self):
         self.csv_file = None
@@ -49,7 +49,7 @@ class CsvDataWriter(DataWriter):
         timestamp = utils.get_timestamp()
         self.new_file = self.filename + timestamp + '.csv'
         try:
-            self.csv_file = open(join_cwd(self.rel_path + self.new_file), 'wb+')
+            self.csv_file = open(format(config.mon_dir + self.rel_path + self.new_file), 'wb+')
         except Exception, e:
             import ipdb;ipdb.set_trace()
         if self.csv_file:
@@ -87,8 +87,8 @@ class CsvDataWriter(DataWriter):
 
     def close(self):
         self.csv_file.close()
-	command = 'sudo mv ' + join_cwd('/logs/' + self.new_file) + ' ' + join_cwd('/readings/' + self.new_file)
-	Process(command)
+        command = 'sudo mv ' + self.logs_dir + self.new_file + ' ' + self.readings_dir + self.new_file
+        Process(command)
 
 
 class DatabaseDataWriter(DataWriter):
