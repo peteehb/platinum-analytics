@@ -88,7 +88,7 @@ class CsvDataWriter(DataWriter):
 
     def close(self):
         self.csv_file.close()
-        command = 'sudo mv ' + self.logs_dir + self.new_file + ' ' + self.readings_dir + self.new_file
+        command = 'sudo mv ' + self.rel_path + self.new_file + ' ' + self.readings_dir + self.new_file
         Process(command)
 
 
