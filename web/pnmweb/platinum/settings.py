@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'platinumcore',
     'crispy_forms',
+    'datetimewidget',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -120,6 +121,6 @@ TEMPLATE_DEBUG = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-PNMDB_URL = '130.255.72.102:8000'
+PNMDB_URL = 'http://130.255.72.102:8000'
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'

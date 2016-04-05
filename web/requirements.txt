@@ -3,3 +3,4 @@ Django
 psycopg2
 django-crispy-forms
 requests
+django-datetime-widget==0.9.3

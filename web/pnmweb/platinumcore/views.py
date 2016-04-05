@@ -1,8 +1,12 @@
-from django.shortcuts import render
+import urllib
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+import time
 from forms import *
 from django.contrib.auth.decorators import login_required
 import requests
+from platinum.settings import PNMDB_URL
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -69,11 +73,40 @@ def players_overview(request):
                   {'players': players, 'form': form})
 
 
-def sensor_readings(request):
-    if request.method == 'GET':
-        data_response = requests.get('http://127.0.0.1:8000/sensor-reading')
-        if data_response.status_code == 200:
-            data = data_response.json()['results']
-            return render(request, 'dashboard.html', {'sensor_readings': data})
+def sensor_readings(request, url):
+    pnmdb_sensor_readings = PNMDB_URL + '/sensor-reading/?'
 
-        return render(request, 'dashboard.html')
+    data = []
+    if request.method == 'GET':
+        r = requests.get(pnmdb_sensor_readings)
+
+        while r.json()['next'] is not None:
+            if r.status_code == 200:
+                data.append([reading for reading in r.json()['results']])
+            r = requests.get(r.json()['next'])
+
+        return render(request, 'dashboard.html', {'sensor_readings': data})
+
+    return render(request, 'dashboard.html')
+
+
+def sensor_readings_filter(request):
+    if request.method == 'POST':
+        form = SensorReadingFilterForm(request.POST)
+        if form.is_valid():
+            time_start = form.cleaned_data.get('time_start')
+            time_start_timestamp = int(time.mktime(time_start.timetuple()) * 100)
+
+            time_end = form.cleaned_data.get('time_end')
+            time_end_timestamp = int(time.mktime(time_end.timetuple()) * 100)
+
+            node = form.cleaned_data.get('node')
+            url = PNMDB_URL + "/sensor-reading/?time_start={0}&time_end={1}&node={2}"\
+                .format(time_start_timestamp, time_end_timestamp, node)
+            import ipdb; ipdb.set_trace(
+
+            )
+            return redirect(sensor_readings, url)
+    else:
+        form = SensorReadingFilterForm()
+    return render(request, 'form.html', {'form': form})

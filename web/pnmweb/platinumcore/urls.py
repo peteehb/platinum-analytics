@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth import views as auth_views
 
-from views import login_user, club_overview, teams_overview, player_overview, players_overview, logout_user, sensor_readings
+from views import *
 
 urlpatterns = patterns(
     '',
@@ -15,6 +15,7 @@ urlpatterns = patterns(
     url(r'^players/$', players_overview, name="players"),
 
 
-    url(r'^sensor-readings/$', sensor_readings, name="reading")
+    url(r'^sensor-reading/$', sensor_readings, name="reading"),
+    url(r'^sensor-reading-filter/$', sensor_readings_filter, name='reading_filter')
 )
 
