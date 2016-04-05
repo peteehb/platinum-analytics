@@ -73,20 +73,20 @@ def players_overview(request):
                   {'players': players, 'form': form})
 
 
-def sensor_readings(request, url):
-    pnmdb_sensor_readings = PNMDB_URL + '/sensor-reading/?'
-
-    data = []
-    if request.method == 'GET':
-        r = requests.get(pnmdb_sensor_readings)
-
-        while r.json()['next'] is not None:
-            if r.status_code == 200:
-                data.append([reading for reading in r.json()['results']])
-            r = requests.get(r.json()['next'])
-
-        return render(request, 'dashboard.html', {'sensor_readings': data})
-
+def sensor_readings(request):
+    # if request.method == 'GET':
+    #     r = requests.get(PNMDB_URL + "/sensor-reading/")
+    #     data = r.json()['results']
+    #
+    #     while r.json()['next'] is not None:
+    #         if r.status_code == 200:
+    #             next_page_of_results = r.json()['next']
+    #             while next_page_of_results is not None:
+    #                 next = requests.get(next_page_of_results)
+    #                 data += next.json()['results']
+    #                 next_page_of_results = next.json()['next']
+    #
+    #     return render(request, 'dashboard.html', {'sensor_readings': data})
     return render(request, 'dashboard.html')
 
 
@@ -94,19 +94,32 @@ def sensor_readings_filter(request):
     if request.method == 'POST':
         form = SensorReadingFilterForm(request.POST)
         if form.is_valid():
+            # Get form data
             time_start = form.cleaned_data.get('time_start')
-            time_start_timestamp = int(time.mktime(time_start.timetuple()) * 100)
-
             time_end = form.cleaned_data.get('time_end')
+            node = form.cleaned_data.get('node')
+
+            # Turn datetimes into timestamp format. multiply by 100 to match data in db
+            time_start_timestamp = int(time.mktime(time_start.timetuple()) * 100)
             time_end_timestamp = int(time.mktime(time_end.timetuple()) * 100)
 
-            node = form.cleaned_data.get('node')
+            # Generate readings url
             url = PNMDB_URL + "/sensor-reading/?time_start={0}&time_end={1}&node={2}"\
                 .format(time_start_timestamp, time_end_timestamp, node)
-            import ipdb; ipdb.set_trace(
 
-            )
-            return redirect(sensor_readings, url)
+            # Get readings
+            r = requests.get(url)
+            data = r.json()['results']
+
+            # Get next page of results if there is one
+            # Continue until all results have been retrieved
+            next_page_of_results = r.json()['next']
+            while next_page_of_results is not None:
+                next = requests.get(next_page_of_results)
+                data += next.json()['results']
+                next_page_of_results = next.json()['next']
+
+            return render(request, 'dashboard.html', {'sensor_readings': data})
     else:
         form = SensorReadingFilterForm()
     return render(request, 'form.html', {'form': form})
