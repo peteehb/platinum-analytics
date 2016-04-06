@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>mon.DataWriter.CsvDataWriter</OriginalElement>
+  <nodes>
+    <node x="317.5" y="0.0">mon.DataWriter.DataWriter</node>
+    <node x="515.0" y="298.0">mon.DataWriter.DatabaseDataWriter</node>
+    <node x="0.0" y="910.0">mon.BluetoothMonitor.BluetoothMonitor</node>
+    <node x="0.0" y="202.0">mon.DataWriter.CsvDataWriter</node>
+    <node x="0.0" y="640.0">mon.SyncLocalFiles.SyncLocalFiles</node>
+    <node x="328.0" y="640.0">mon.StartProgram.StartProgram</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="mon.DataWriter.DatabaseDataWriter" target="mon.DataWriter.DataWriter">
+      <point x="0.0" y="-100.5" />
+      <point x="682.5" y="177.0" />
+      <point x="538.75" y="177.0" />
+      <point x="73.75" y="76.0" />
+    </edge>
+    <edge source="mon.DataWriter.CsvDataWriter" target="mon.DataWriter.DataWriter">
+      <point x="0.0" y="-196.5" />
+      <point x="247.5" y="177.0" />
+      <point x="391.25" y="177.0" />
+      <point x="-73.75" y="76.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.78868258178603" x="518.1502242152467" y="715.5" />
+  <SelectedNodes>
+    <node>mon.StartProgram.StartProgram</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+
