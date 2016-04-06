@@ -7,7 +7,7 @@ from utils import join_cwd
 from ProcessManager import Process
 import config
 
-class DataWriter:
+class DataWriter(object):
     @abstractmethod
     def __init__(self, **kwargs):
         pass
