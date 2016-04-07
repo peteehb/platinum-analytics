@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from .models import Team, Club, Player, SensorReading
+from .models import Team, Club, Player, SensorReading, Pitch
 from rest_framework import serializers
 
 
@@ -43,3 +43,7 @@ class SensorReadingSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'url', 'rssi', 'mac_address', 'timestamp', 'receiver', 'distance')
 
 
+class PitchSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pitch
+        fields = ('id', 'name', 'description', 'width', 'length')

@@ -3,13 +3,13 @@ import requests
 import urllib2
 import csv
 from DataWriter import CsvDataWriter
-from utils import join_cwd
+import config
 
 
 class SyncLocalFiles(object):
     def __init__(self):
         self.url = 'http://130.255.72.102:8000/sensor-reading/'
-        self.local_files_path = join_cwd('/readings/')
+        self.local_files_path = config.mon_dir + '/readings/'
         self.url_accessible = self.check_url()
 
     def run(self):
@@ -27,7 +27,8 @@ class SyncLocalFiles(object):
                         readings_failed_to_post.append(reading)
 
                 if len(readings_failed_to_post) > 0:
-                    failed_readings_writer = CsvDataWriter(rel_path='/readings', filename='SensorReadingsFailed', file_header=readings_file._fieldnames)
+                    failed_readings_writer = CsvDataWriter(rel_path='/readings/', filename='SensorReadingsFailed',
+                                                           file_header=readings_file._fieldnames)
                     for reading in readings_failed_to_post:
                         failed_readings_writer.write(data=reading)
 
@@ -55,6 +56,7 @@ class SyncLocalFiles(object):
             post_successful = True
         return post_successful
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     f = SyncLocalFiles()
     f.run()

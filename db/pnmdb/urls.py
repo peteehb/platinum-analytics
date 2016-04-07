@@ -9,7 +9,8 @@ router.register(r'groups', views.GroupViewSet)
 router.register(r'teams', views.TeamViewSet)
 router.register(r'clubs', views.ClubViewSet)
 router.register(r'players', views.PlayerViewSet)
-router.register(r'sensor-reading', views.SensorReadingViewSet)
+router.register(r'sensor-readings', views.SensorReadingViewSet)
+router.register(r'pitches', views.PitchViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

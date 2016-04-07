@@ -1,12 +1,12 @@
 from django.contrib.auth.models import User, Group
-import bluetooth_utils as utils
-from .models import Team, Club, Player, SensorReading
+import django_filters
+from .models import Team, Club, Player, SensorReading, Pitch
 from rest_framework import viewsets
 from pagination import LargeResultsSetPagination, StandardResultsSetPagination
 from serializers import UserSerializer, GroupSerializer, ClubSerializer, TeamSerializer, PlayerSerializer, \
-    SensorReadingSerializer
-from rest_framework.response import Response
-from rest_framework import status
+    SensorReadingSerializer, PitchSerializer
+from rest_framework import filters
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """API endpoint that allows users to be viewed or edited."""
@@ -42,21 +42,34 @@ class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
 
 
+class SensorReadingFilter(filters.FilterSet):
+    time_start = django_filters.NumberFilter(name="timestamp", lookup_type='gte')
+    time_end = django_filters.NumberFilter(name="timestamp", lookup_type='lte')
+    node = django_filters.CharFilter(name="mac_address", lookup_type='iexact')
+
+    class Meta:
+        model = SensorReading
+        fields = ['node', 'time_start', 'time_end', 'receiver', 'distance']
+
+
 class SensorReadingViewSet(viewsets.ModelViewSet):
     queryset = SensorReading.objects.all()
     serializer_class = SensorReadingSerializer
     pagination_class = LargeResultsSetPagination
+    filter_backends = (filters.DjangoFilterBackend, )
+    filter_class = SensorReadingFilter
 
-    # def create(self, request, *args, **kwargs):
-    #     data = self.prepare_data(request.data)
-    #     serializer = self.get_serializer(data=data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    # def prepare_data(self, data):
-    #     rssi = data['rssi']
-    #     rssi_val = utils.rssi_to_integer(rssi)
-    #     data['distance'] = utils.rssi_to_meters(rssi_val)
-    #     return data
+class PitchFilter(filters.FilterSet):
+    query_name = django_filters.CharFilter(name="name", lookup_type='iexact')
+
+    class Meta:
+        model = Pitch
+        fields = ['query_name']
+
+
+class PitchViewSet(viewsets.ModelViewSet):
+    queryset = Pitch.objects.all()
+    serializer_class = PitchSerializer
+    filter_backends = (filters.DjangoFilterBackend, )
+    filter_class = PitchFilter

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/opt/platinum/mon/BluetoothMonitor.py</OriginalElement>
+  <nodes>
+    <node x="170.5" y="0.0">_abcoll.Hashable</node>
+    <node x="451.0" y="646.0">mon.ProcessManager.Process</node>
+    <node x="863.7085201793723" y="647.7443946188341">mon.StartProgram.StartProgram</node>
+    <node x="-453.7264573991032" y="920.0941704035874">mon.DataWriter.DatabaseDataWriter</node>
+    <node x="-65.7219730941705" y="928.7040358744395">mon.DataWriter.CsvDataWriter</node>
+    <node x="105.5" y="646.0">mon.BluetoothMonitor.BluetoothMonitor</node>
+    <node x="-227.0" y="657.0">mon.DataWriter.DataWriter</node>
+    <node x="-845.3497757847533" y="630.5246636771301">mon.SyncLocalFiles.SyncLocalFiles</node>
+    <node x="0.0" y="155.0">object</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="object" target="_abcoll.Hashable">
+      <point x="0.0" y="-220.5" />
+      <point x="0.0" y="52.5" />
+    </edge>
+    <edge source="mon.StartProgram.StartProgram" target="object">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="mon.DataWriter.DatabaseDataWriter" target="mon.DataWriter.DataWriter">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="mon.DataWriter.CsvDataWriter" target="mon.DataWriter.DataWriter">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="mon.DataWriter.DataWriter" target="object">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="mon.ProcessManager.Process" target="object">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="mon.BluetoothMonitor.BluetoothMonitor" target="object">
+      <point x="0.0" y="-100.5" />
+      <point x="0.0" y="220.5" />
+    </edge>
+    <edge source="mon.SyncLocalFiles.SyncLocalFiles" target="object">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.696875" x="218.03587443946185" y="710.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+</Diagram>
+
