@@ -123,3 +123,21 @@ def sensor_readings_filter(request):
     else:
         form = SensorReadingFilterForm()
     return render(request, 'form.html', {'form': form})
+
+
+def add_pitch(request):
+    if request.method == 'POST':
+        form = PitchForm(request.POST)
+        if form.is_valid():
+            url = PNMDB_URL + "/pitches/"
+            data = {
+                'name': form.cleaned_data.get('name'),
+                'description': form.cleaned_data.get('description'),
+                'width': form.cleaned_data.get('width'),
+                'length': form.cleaned_data.get('length'),
+            }
+            r = requests.post(url, data)
+            return render(request, 'dashboard.html')
+    else:
+        form = PitchForm()
+    return render(request, 'form.html', {'form': form})

@@ -67,8 +67,18 @@ class PlayerForm(ModelForm):
 
 
 class SensorReadingFilterForm(forms.Form):
-    time_start = forms.DateTimeField(widget=DateTimeWidget(attrs={'id': "time_start"}, usel10n=True, bootstrap_version=3))
-    time_end = forms.DateTimeField(widget=DateTimeWidget(attrs={'id': "time_end"}, usel10n=True, bootstrap_version=3))
+    time_start = forms.DateTimeField(
+        widget=DateTimeWidget(
+            attrs={'id': "time_start"},
+            usel10n=True,
+            bootstrap_version=3
+        ))
+    time_end = forms.DateTimeField(
+        widget=DateTimeWidget(
+            attrs={'id': "time_end"},
+            usel10n=True,
+            bootstrap_version=3
+        ))
     node = forms.CharField()
 
     def __init__(self, *args, **kwargs):
@@ -81,6 +91,28 @@ class SensorReadingFilterForm(forms.Form):
             Field('time_start'),
             Field('time_end'),
             Field('node'),
+            FormActions(
+                Submit('submit', 'Submit')
+            ),
+        )
+
+class PitchForm(forms.Form):
+    name = forms.CharField()
+    description = forms.CharField(widget=forms.Textarea)
+    width = forms.IntegerField()
+    length = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(PitchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-horizontal'
+        self.label_class = 'col-lg-3'
+        self.field_class = 'col-lg-7'
+        self.helper.layout = Layout(
+            Field('name'),
+            Field('description'),
+            Field('width'),
+            Field('length'),
             FormActions(
                 Submit('submit', 'Submit')
             ),

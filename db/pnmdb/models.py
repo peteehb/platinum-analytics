@@ -39,3 +39,10 @@ class SensorReading(models.Model):
     timestamp = models.CharField(max_length=64)
     receiver = models.IntegerField()
     distance = models.FloatField()
+
+
+class Pitch(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    description = models.CharField(max_length=256)
+    width = models.IntegerField()
+    length = models.IntegerField()

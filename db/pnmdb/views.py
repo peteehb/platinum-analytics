@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User, Group
 import django_filters
-from .models import Team, Club, Player, SensorReading
+from .models import Team, Club, Player, SensorReading, Pitch
 from rest_framework import viewsets
 from pagination import LargeResultsSetPagination, StandardResultsSetPagination
 from serializers import UserSerializer, GroupSerializer, ClubSerializer, TeamSerializer, PlayerSerializer, \
-    SensorReadingSerializer
+    SensorReadingSerializer, PitchSerializer
 from rest_framework import filters
 
 
@@ -58,3 +58,18 @@ class SensorReadingViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     filter_backends = (filters.DjangoFilterBackend, )
     filter_class = SensorReadingFilter
+
+
+class PitchFilter(filters.FilterSet):
+    query_name = django_filters.CharFilter(name="name", lookup_type='iexact')
+
+    class Meta:
+        model = Pitch
+        fields = ['query_name']
+
+
+class PitchViewSet(viewsets.ModelViewSet):
+    queryset = Pitch.objects.all()
+    serializer_class = PitchSerializer
+    filter_backends = (filters.DjangoFilterBackend, )
+    filter_class = PitchFilter

@@ -16,6 +16,8 @@ urlpatterns = patterns(
 
 
     url(r'^sensor-reading/$', sensor_readings, name="reading"),
-    url(r'^sensor-reading-filter/$', sensor_readings_filter, name='reading_filter')
+    url(r'^sensor-reading-filter/$', sensor_readings_filter, name='reading_filter'),
+
+    url(r'^pitch/$', add_pitch, name='pitch'),
 )
 
